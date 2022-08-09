@@ -1,0 +1,176 @@
+{% extends "layout.html" %} {% block content %} {% with messages =
+get_flashed_messages(with_categories=true) %} {% if messages %} {% for category,
+message in messages %}
+<div class="container mt-5">
+  <div class="alert alert-{{ category }}" role="alert">
+    <strong>{{ message }}</strong>
+  </div>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+
+<div
+  id="introduction"
+  class="container-fluid vh-100 d-flex align-content-center flex-wrap"
+>
+  <div class="container-fluid vh-100 d-flex align-content-center flex-wrap">
+    <div class="row g-4 justify-content-center align-items-center">
+      <div class="col-md-5 text-center text-md-start">
+        <img
+          src="{{ url_for('static', filename='images/second.png') }}"
+          alt=""
+          class="img-fluid"
+        />
+      </div>
+      <div class="col-md-6">
+        <h1>
+          <div class="display-2">Move</div>
+          <div class="display-5 text-muted">Let's save our homes.</div>
+        </h1>
+        <p class="lead my-4 text-muted">
+          A measured approach that considers much more than just planting trees.
+        </p>
+        <a
+          href="{{ url_for('authentication.register') }}"
+          class="text-success text-decoration-none h5 fw-bold"
+          >Register Now</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About Us -->
+<div
+  id="about-us"
+  class="container-fluid vh-100 d-flex align-content-center flex-wrap"
+>
+  <div class="container">
+    <div class="row g-4 justify-content-center align-items-center">
+      <div class="col-md-6">
+        <h1>
+          <div class="display-2">About Us</div>
+          <div class="display-5 text-muted"></div>
+        </h1>
+        <p class="lead my-4 text-muted">
+          <span class="text-secondary fw-bold">Forest Restoration</span> is a
+          platform that allows you to plant a
+          <span class="text-success fw-bold">tree</span> from a distance and follow the
+          project's story online.
+        </p>
+      </div>
+      <div class="col-md-5 text-center text-md-start">
+        <img
+          src="{{ url_for('static', filename='images/sixth.png') }}"
+          alt=""
+          class="img-fluid"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Us -->
+<div
+  id="impact"
+  class="container-fluid vh-100 d-flex align-content-center flex-wrap"
+>
+  <div class="container d-flex align-content-center flex-wrap">
+    <div
+      class="row align-items-center justify-content-center align-content-center"
+    >
+      <div class="col-md-5 text-center text-md-start">
+        <img
+          src="{{ url_for('static', filename='images/fifth.png') }}"
+          alt=""
+          class="img-fluid"
+        />
+      </div>
+      <div class="col-md-6">
+        <h1>
+          <div class="display-2">Explore</div>
+          <div class="display-5 text-muted">Every tree in the right way.</div>
+        </h1>
+        <p class="lead my-4 text-muted">
+          We believe that every one of us must make an effort to diminish our
+          CO2 emissions, and in doing so, we can also help absorb them by
+          planting <span class="text-success fw-bold">trees</span>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="reg-modal"
+  tabindex="-1"
+  aria-labelledby="modal-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog shadow bg-white rounded">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">
+          <i class="bi bi-box-arrow-in-right"></i> Login or Sign Up
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" class="lead">
+          {{ form.hidden_tag() }} {{ form.email.label(class="form-label") }}
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-envelope text-secondary"></i>
+            </span>
+            {% if form.email.errors %} {{ form.email(class="form-control
+            form-control-sm is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+              <span>{{error}}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.email(class="form-control form-control-sm") }} {%
+            endif %}
+          </div>
+          {{ form.password.label(class="form-label") }}
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-key text-secondary"></i>
+            </span>
+            {% if form.password.errors %} {{ form.password(class="form-control
+            form-control-sm is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.password.errors %}
+              <span>{{error}}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.password(class="form-control form-control-sm") }}
+            {% endif %}
+          </div>
+          <div class="form-group">
+            {{ form.user_type.label(class="form-control-label mb-2") }} {{
+            form.user_type(class="form-select form-control-sm text-muted") }}
+          </div>
+          <div class="form-group pt-3 d-grid gap-2">
+            {{ form.login(class="btn text-success px-5 rounded-pill shadow")}}
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <p class="text-muted">Don't have an account yet?</p>
+        <a
+          href="{{ url_for('authentication.register') }}"
+          class="text-decoration-none"
+          >Sign Up</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

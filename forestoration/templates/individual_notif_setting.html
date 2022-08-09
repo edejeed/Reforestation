@@ -1,0 +1,39 @@
+{% extends "individual_setting.html" %} {% block prof %}
+<div class="right notif shadow">
+  <div class="row">
+    <div class="col mt-5 mx-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          Notify me via Email
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mt-5 mx-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          Notify via SMS
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-end align-content-end text-end mt-4 mx-2">
+    <div class="col">
+      <button class="btn st btn-primary" type="button">Save Changes</button>
+    </div>
+  </div>
+</div>
+{% endblock prof %}

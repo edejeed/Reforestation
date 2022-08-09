@@ -1,0 +1,35 @@
+{% extends "org_settings.html" %} {% block profile %}
+<div class="right prof shadow">
+    <form action="{{ url_for('organization.org_settings_pass') }}" method="POST">
+    <div class="row">
+        <div class="col mt-5">
+            <div class="form-group">
+                <label>Old Password:</label>
+                 <input type="text" class="form-control" name="old_pass" value="">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mt-3">
+            <div class="form-group">
+                <label>New Password:</label>
+                 <input type="text" class="form-control" name="new_pass" value="">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group mt-3">
+                <label>Confirm New Password:</label>
+                 <input type="text" class="form-control" name="confirm_pass" value="">
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end align-content-end text-end mt-4 mx-2">
+        <div class="col">
+            <button class="btn st btn-primary" type="submit">Save Changes</button>
+        </div>
+    </div>
+    </form>
+</div>
+{% endblock profile %}

@@ -1,0 +1,55 @@
+{% extends "org_settings.html" %} {% block profile %}
+<div class="right prof shadow">
+  <form
+    action="{{ url_for('organization.org_settings') }}"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="row justify-content-center align-content-center text-center">
+      <div class="col">
+        <div class="inform">
+          <img
+            src="https://res.cloudinary.com/dv2unlzs1/image/upload/v1642944297/forestoration/{{ g.user[4] }}"
+            class="rounded-circle mt-4"
+          />
+        </div>
+        <div class="upload" type="button">
+          <input class="form-control" type="file" name="file" id="formFile" />
+          <i class="bi bi-camera-fill text-light"></i>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label>Organization Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="org_name"
+            value="{{g.user[1]}}"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label>Email:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="org_email"
+            value="{{g.user[2]}}"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-end align-content-end text-end mt-4 mx-2">
+      <div class="col">
+        <button class="btn st btn-primary" type="submit">Save Changes</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock profile %}

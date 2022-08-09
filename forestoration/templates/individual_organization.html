@@ -1,0 +1,101 @@
+{% extends "individual_page.html" %} 
+{% block links %}
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"
+  ></script>
+
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+  <script>
+    $(function () {
+      $("#table").bootstrapTable({
+        data: JSON.parse('{{ organization | tojson | safe}}')
+      })
+    })
+
+    function customViewFormatter(data) {
+      var template = $("#organizationTemplate").html();
+      var view = "";
+      $.each(data, function (i, row) {
+        view += template
+          .replaceAll("%ORGANIZATION_ID%", row.organization_id)
+          .replaceAll("%FULL_NAME%", row.full_name)
+          .replaceAll("%EMAIL%", row.email)
+          .replaceAll("%FILENAME%", row.filename);
+      });
+
+      return `<div class="row mx-0">${view}</div>`;
+    }
+  </script>
+{% endblock %}
+{% block content %}
+  <div class="container-fluid d-flex align-content-center flex-wrap">
+    <div class="container my-5">
+      <table
+        id="table"
+        data-search="true"
+        data-pagination="true"
+        data-page-size="2"
+        data-show-custom-view="true"
+        data-custom-view="customViewFormatter"
+        data-show-custom-view-button="true"
+      >
+        <thead>
+          <tr>
+            <th data-field="full_name">Event Organizer</th>
+          </tr>
+        </thead>
+      </table>
+
+      <template id="organizationTemplate">
+        <div class="col-6 mt-3">
+          <div class="card shadow bg-white rounded">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-lg-8 col-md-6">
+                  <h5 class="mb-0 text-truncated">Event Organizer</h5>
+                  <p class="lead"><i>%FULL_NAME%</i></p>
+                  <h6 class="text-center"><i class="material-icons text-success">Activity Log</i></h6>
+                  <small>Events Facilitated</small>
+                  <div class="progress mb-3" style="height: 4px">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small>Events Completed</small>
+                  <div class="progress mb-3" style="height: 4px">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small>Trees Planted</small>
+                  <div class="progress mb-3" style="height: 4px">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small>Seedlings</small>
+                  <div class="progress mb-3" style="height: 4px">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-md-6 text-center">
+                  <br />
+                    <img
+                        src="https://res.cloudinary.com/dv2unlzs1/image/upload/v1642829118/forestoration/%FILENAME%.jpg"
+                        class="rounded-circle p-1 bg-warning"
+                        style="object-fit: cover"
+                        width="60px"
+                        height="60px"
+                    />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+{% endblock %}

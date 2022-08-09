@@ -1,0 +1,25 @@
+{% extends "org-layout.html" %} {% block content %}
+<div class="container-lg position-absolute top-50 start-50 translate-middle">
+  <div class="row justify-content-center align-items-center text-center">
+    <div class="col-md-4 shadow bg-white rounded p-4">
+      <img
+        src="https://res.cloudinary.com/dv2unlzs1/image/upload/v1642944297/forestoration/{{ g.user[4] }}"
+        class="rounded-circle"
+      />
+      <div class="mt-4">
+        <h4 class="font-monospace text-uppercase">{{ g.user[1] }}</h4>
+        <p class="h4 text-muted">
+          <i class="bi bi-envelope text-dark"></i> {{ g.user[2] }}
+        </p>
+        <p class="lead my-4 text-muted">Organization</p>
+      </div>
+      <a
+        href="{{ url_for('organization.org_settings', user_email=g.user[2]) }}"
+        class="btn btn-sm btn-outline-info px-5 rounded-pill shadow"
+        >Update Profile</a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

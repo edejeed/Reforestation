@@ -1,0 +1,170 @@
+{% extends "individual_page.html" %}
+{% block links %}
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  crossorigin="anonymous"
+></script>
+
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<script>
+  $(function() {
+    $('#eventRated').bootstrapTable({
+      data: JSON.parse('{{ i_rated | tojson | safe}}')
+    })
+  })
+
+  function eventRatedViewFormatter (data) {
+    var template = $('#eventRatedTemplate').html();
+    var view = '';
+
+    $.each(data, function (i, row) {
+
+      var stars = ''
+        for (i = 0; i < 5; i++) {
+
+          if (i < parseInt(row.rating_rating)) {
+            stars += '<span class="fa fa-star" style="color:#EFFD5F"></span> ';
+          }
+          else {
+            stars += '<span class="fa fa-star" style="color:grey"></span> ';
+          }
+        }
+        stars += '(' + row.rating_rating.toString() + ')';
+
+      var month = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        
+      var rating_date = new Date(row.rating_date);
+      rating_date = month[rating_date.getMonth()+1] + ' ' + rating_date.getDate() + ', ' + rating_date.getFullYear();
+      
+      view += template
+        .replaceAll('%RATING_ID%', row.rating_id)
+        .replaceAll('%INDIVIDUAL_ID%', row.individual_id)
+        .replaceAll('%EVENT_ID%', row.event_id)
+        .replaceAll('%RATING_REVIEW%', row.rating_review)
+        .replaceAll('%RATING_RATING%', stars)
+        .replaceAll('%RATING_DATE%', rating_date)
+        .replaceAll('%RATING_EVENT_NAME%', row.rating_event_name)
+    })
+    
+    return `<div class="row mx-0">${view}</div>`;
+  }
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<label>
+  <h3 class="mb-1 px-5 ml-5 pl-5 text-center">Events Rated and Reviewed</h3>
+</label>
+
+<div class="container mt-3 pb-3 mb-3">
+  <div class="container pb-3 ">
+    <table
+      id="eventRated"
+      data-search="true"
+      data-show-search-button="true"
+      data-show-search-clear-button="true"
+      data-advanced-search="false"
+      data-strict-search="true"
+      data-id-table="advancedTable"
+      data-show-refresh="false"
+      data-pagination="true"
+      data-page-size="4"
+      data-pagination-h-align="left"
+      data-pagination-detail-h-align="right"
+      data-show-custom-view="true"
+      data-show-custom-view-button="false"
+      data-custom-view="eventRatedViewFormatter">
+      <thead>
+        <tr>
+          <th data-field="rating_id" data-searchable="true">RATING ID</th>
+          <th data-field="individual_id" data-searchable="true">INDIVIDUAL ID</th>
+          <th data-field="event_id" data-searchable="true">EVENT ID</th>
+          <th data-field="rating_review" data-searchable="true">RATING REVIEW</tr>
+          <th data-field="rating_rating" data-searchable="true">RATING RATING</th>
+          <th data-field="rating_date" data-searchable="true">RATING DATE</th>
+          <th data-field="rating_event_name" data-searchable="true">RATING EVENT NAME</th>
+        </tr>
+      </thead>
+    </table>
+    
+    <template id="eventRatedTemplate">
+      <div class="col-4 mt-3">
+        <div class="card shadow bg-white rounded">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-lg-8 col-md-6">
+                <h5 class="mb-0 text-truncated">Organizational Event</h5>
+                <p class="lead"><i>%RATING_EVENT_NAME%</i></p>
+                <p>
+                  %RATING_REVIEW%
+                </p>
+              </div>
+              <div class="col-12 col-lg-4 col-md-6 text-center">
+                <br />
+                <p>%RATING_RATING%</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <h6 class="mb-0 fw-bold">%RATING_DATE%</h6>
+                <small>Date Rated</small>
+              </div>
+              <div class="col-md-12 mt-3 text-end">
+                <a class="text-primary h5 text-decoration-none"href="/edit-rating/%EVENT_ID%">
+                  Edit
+                </a>
+                <a class="text-white">extra</a>
+                <a class="text-danger h5 text-decoration-none" data-bs-toggle="modal" data-bs-target="#modal-%EVENT_ID%" href="#">
+                  Delete
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal For View-->
+      <div
+        class="modal fade"
+        id="modal-%EVENT_ID%"
+        tabindex="-1"
+        aria-labelledby="ModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ModalLabel">Delete Rating</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p class="h4 text-center">Are you sure you want to delete your rating on <b>"%RATING_EVENT_NAME%"</b></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <form action="/delete-rating/%EVENT_ID%">
+                <input type="submit" value="Delete Rating" class="btn btn-danger">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </template>
+
+  </div>
+</div>
+{% endblock %}

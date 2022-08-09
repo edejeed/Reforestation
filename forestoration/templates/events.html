@@ -1,0 +1,166 @@
+{% extends "individual_page.html" %} 
+{% block links %}
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"
+  ></script>
+
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+  <script>
+    $(function () {
+      $("#table").bootstrapTable({
+        data: JSON.parse('{{ events | tojson | safe}}')
+      })
+    })
+
+    function customViewFormatter(data) {
+      var template = $("#eventTemplate").html();
+      var view = "";
+      $.each(data, function (i, row) {
+        view += template
+          .replaceAll("%EVENT_ID%", row.event_id)
+          .replaceAll("%OWNER%", row.owner)
+          .replaceAll("%EVENT_NAME%", row.event_name)
+          .replaceAll("%EVENT_DESCRIPTION%", row.event_description)
+          .replaceAll("%NUMBER_OF_PARTICIPANTS%", row.number_of_participants)
+          .replaceAll("%NUMBER_OF_SEEDS%", row.number_of_seeds)
+          .replaceAll("%VENUE%", row.venue)
+          .replaceAll("%SEEDLING%", row.seedling)
+          .replaceAll("%START_DATE%", row.start_date)
+          .replaceAll("%END_DATE%", row.end_date);
+      });
+
+      return `<div class="row mx-0">${view}</div>`;
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid d-flex align-content-center flex-wrap">
+    <div class="container my-5">
+      <table
+        id="table"
+        data-search="true"
+        data-pagination="true"
+        data-page-size="3"
+        data-show-custom-view="true"
+        data-custom-view="customViewFormatter"
+        data-show-custom-view-button="true"
+      >
+        <thead>
+          <tr>
+            <th data-field="event_name">Event Name</th>
+            <th data-field="event_description">Event Description</th>
+            <th data-field="number_of_participants">Number of Participants</th>
+            <th data-field="number_of_seeds">Number of Seeds</th>
+            <th data-field="venue">Venue</th>
+            <th data-field="cost">Cost</th>
+            <th data-field="start_date">Start Date</th>
+            <th data-field="end_date">End Date</th>
+          </tr>
+        </thead>
+      </table>
+
+      <template id="eventTemplate">
+        <div class="col-4 mt-3">
+          <div class="card shadow bg-white rounded">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-lg-8 col-md-6">
+                  <h5 class="mb-0 text-truncated">Organizational Event</h5>
+                  <p class="lead"><i>%EVENT_NAME%</i></p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Beatae, provident?
+                  </p>
+                </div>
+                <div class="col-12 col-lg-4 col-md-6 text-center">
+                  <br />
+                  <ul class="list-inline ratings text-center" title="Ratings">
+                    <li class="list-inline-item">
+                      <a href="#"
+                        ><span class="fa fa-star text-success"></span
+                      ></a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#"
+                        ><span class="fa fa-star text-success"></span
+                      ></a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#"
+                        ><span class="fa fa-star text-success"></span
+                      ></a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#"
+                        ><span class="fa fa-star text-success"></span
+                      ></a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#"
+                        ><span class="fa fa-star text-success"></span
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-12 col-md-6">
+                  <h6 class="mb-0 fw-bold">%START_DATE%</h6>
+                  <small>Start Date</small>
+                </div>
+                <div class="col-12 col-md-6">
+                  <h6 class="mb-0 fw-bold">%END_DATE%</h6>
+                  <small>End Date</small>
+                </div>
+                <div class="col-md-12 mt-3 text-end">
+                  <a class="text-primary h5 text-decoration-none" data-bs-toggle="modal" data-bs-target="#modal-%EVENT_ID%" href="#">
+                    View
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal-%EVENT_ID%" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">%EVENT_NAME%</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="display-6">Objectives</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam officiis eligendi velit, nesciunt in obcaecati perferendis, ex eaque, dicta reiciendis neque blanditiis natus voluptatem consectetur! Ad similique itaque id corporis repellat repellendus asperiores sed adipisci, optio voluptates natus error doloremque rem corrupti libero assumenda iure iusto? Sunt laborum praesentium eligendi inventore nobis tempore consequatur odio incidunt sit voluptates laudantium corporis dolorem voluptatum debitis perferendis dignissimos aut illum nam aperiam, officia provident repellat repudiandae magnam ullam? Inventore quasi eligendi mollitia ea, molestiae esse sint recusandae saepe illum provident cum aliquid iusto tempore, possimus reiciendis officiis excepturi sed! Mollitia velit sed minus odio libero. Adipisci nobis delectus voluptatibus mollitia corrupti quis dolor itaque beatae! Qui consequatur necessitatibus porro quasi architecto libero cumque nam vitae. Ducimus veniam exercitationem quo vero deleniti voluptatibus aspernatur temporibus eveniet suscipit minima dicta laudantium mollitia, porro atque dignissimos nam. Quam incidunt similique fugit voluptate totam illo perferendis tenetur.</p>
+                <p>
+                  <span class="badge badge-info tags">Venue: %VENUE%</span>
+                  <span class="badge badge-info tags">Seedling: %SEEDLING%</span>
+                </p>
+                <p>
+                  <span class="badge badge-info tags">Number of Seeds: %NUMBER_OF_SEEDS%</span>
+                  <span class="badge badge-info tags">Number of Participants: %NUMBER_OF_PARTICIPANTS%</span>
+                </p>
+              </div>
+              <div class="modal-footer">
+                <p class="small text-muted">What are you waiting for?</p>
+                <form action="{{ url_for('individual.join') }}" method="POST">
+                  <input class="d-none" name="event_id" id="event_id" type="text" value="%EVENT_ID%">
+                  <input type="submit" value="Join Now" class="btn btn-outline-success">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+{% endblock %}

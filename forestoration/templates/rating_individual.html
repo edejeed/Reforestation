@@ -1,0 +1,46 @@
+{% extends "individual_page.html" %}
+{% block content %}
+
+<br>
+<br>
+<br>
+<div>
+  <p class="text-center h3"><b>{{ event_name }}</b></p>
+</div>
+<div class="container mt-2">
+  <div class="row justify-content-center">
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header">
+          Rating
+        </div>
+        <div class="card-body">
+          <div class="container p2">
+            <form method="POST">
+              {{ form.hidden_tag() }}
+              {{form.review.label(class="form-label") }}
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-person text-secondary"></i>
+                  </span>
+                  {% if form.review.errors %} {{ form.review(class="form-control is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.review.errors %}
+                    <span>{{error}}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %} {{ form.review(class="form-control ") }} {% endif %}
+                </div>
+              <br>
+              {{ form.rating.label(class="form-label") }}
+              {{ form.rating }}
+              <br>
+              {{ form.submit }}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

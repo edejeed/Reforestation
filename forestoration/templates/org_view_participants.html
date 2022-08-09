@@ -1,0 +1,45 @@
+{% extends 'org-layout.html' %} {% block content %}
+<section class="status">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="text text-dark">Participants</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="table">
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          {% for row in participants %}
+          <tbody>
+            <tr class="active">
+              <th><img src="https://res.cloudinary.com/dv2unlzs1/image/upload/v1642944297/forestoration/{{ row.4 }}" class="photo rounded-circle" ></th>
+              <td>{{ row.1 }}</td>
+              <td>{{ row.2 }}</td>
+
+              <td>
+                <a href="{{ url_for('organization.remove_participants', individual_id = row.0) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to Remove?')"><i class="bi bi-person-x-fill"></i></a>
+              </td>
+            </tr>
+          </tbody>
+          {% endfor %}
+
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+

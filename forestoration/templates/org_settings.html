@@ -1,0 +1,22 @@
+{% extends "org-layout.html" %} {% block content %}
+<section class="settings">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="left shadow">
+                    <span class="head">Organization Settings</span>
+                    <nav class="set flex-column ">  
+                        <a class="nav-link" aria-current="page" href="{{ url_for('organization.org_settings', user_email=g.user[2]) }}">Org Profile</a>
+                        <a class="nav-link" aria-current="page" href="{{ url_for('organization.org_settings_pass', user_email=g.user[2]) }}">Change Password</a>
+                        <a class="nav-link" aria-current="page" href="{{ url_for('organization.org_settings_notif', user_email=g.user[2]) }}">Notification</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-8">
+                {% block profile %}
+                {% endblock profile %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

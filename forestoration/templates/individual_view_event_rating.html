@@ -1,0 +1,141 @@
+{% extends "individual_page.html" %}
+{% block links %}
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  crossorigin="anonymous"
+></script>
+
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+<script>
+  $(function() {
+    $('#eventRated').bootstrapTable({
+      data: JSON.parse('{{ event_rating | tojson | safe}}')
+    })
+  })
+
+  function eventRatedViewFormatter (data) {
+    var template = $('#eventRatedTemplate').html();
+    var view = '';
+
+    $.each(data, function (i, row) {
+
+      var stars = ''
+        for (i = 0; i < 5; i++) {
+
+          if (i < parseInt(row.rating_rating)) {
+            stars += '<span class="fa fa-star" style="color:#EFFD5F"></span> ';
+          }
+          else {
+            stars += '<span class="fa fa-star" style="color:grey"></span> ';
+          }
+        }
+        stars += '(' + row.rating_rating.toString() + ')';
+
+      var month = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        
+      var rating_date = new Date(row.rating_date);
+      rating_date = month[rating_date.getMonth()+1] + ' ' + rating_date.getDate() + ', ' + rating_date.getFullYear();
+      
+      view += template
+        .replaceAll('%RATING_ID%', row.rating_id)
+        .replaceAll('%INDIVIDUAL_ID%', row.individual_id)
+        .replaceAll('%EVENT_ID%', row.event_id)
+        .replaceAll('%RATING_REVIEW%', row.rating_review)
+        .replaceAll('%RATING_RATING%', stars)
+        .replaceAll('%RATING_DATE%', rating_date)
+    })
+    
+    return `<div class="row mx-0">${view}</div>`;
+  }
+</script>
+
+{% endblock %}
+{% block content %}
+
+<br>
+<br>
+<div class="row col d-flex justify-content-center text-center">
+    <div class="card col-6">
+      <div class="card-body">
+        <div class="col-12">
+          <h3 class="mb-1 px-5 ml-5 pl-5 text-center"><b>{{ event_name }}</b></h3>
+          <h4>Average Rating</h4>
+          <h2 class="bold padding-bottom-7">{{ get_event_rating }} <small>/ 5.0</small></h2>
+          <div>
+            <i class="bi bi-people-fill"></i>
+            <span></span>{{ rating_count }} total
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container mt-3 pb-3 mb-3">
+    <div class="container pb-3 ">
+      <table
+        id="eventRated"
+        data-search="false"
+        data-show-search-button="false"
+        data-show-search-clear-button="false"
+        data-advanced-search="false"
+        data-strict-search="true"
+        data-id-table="advancedTable"
+        data-show-refresh="false"
+        data-pagination="true"
+        data-page-size="4"
+        data-pagination-h-align="left"
+        data-pagination-detail-h-align="right"
+        data-show-custom-view="true"
+        data-show-custom-view-button="false"
+        data-custom-view="eventRatedViewFormatter">
+        <thead>
+          <tr>
+            <th data-field="rating_id" data-searchable="true">RATING ID</th>
+            <th data-field="individual_id" data-searchable="true">INDIVIDUAL ID</th>
+            <th data-field="event_id" data-searchable="true">EVENT ID</th>
+            <th data-field="rating_review" data-searchable="true">RATING REVIEW</tr>
+            <th data-field="rating_rating" data-searchable="true">RATING RATING</th>
+            <th data-field="rating_date" data-searchable="true">RATING DATE</th>
+          </tr>
+        </thead>
+      </table>
+      
+      <template id="eventRatedTemplate">
+       
+        <div class="card-body">
+            <div class="row">
+            <div class="card-content">
+                <div class="card shadow" type="button data-bs">
+                <br>
+                <div class="card-1">
+                <p class="text-start fw-bold fs-4 pl-5">{{ rater_name }}</p>
+                </div>
+                <div class="card-4">
+                <p class="text-start fs-5 text-truncated pl-5">%RATING_REVIEW%</p>
+                </div>
+                <div class="card-5">
+                <p class="badge bg-info text-dark pl-5 ml-5">Rating: %RATING_RATING%</p>
+                </div>
+                <div class="card-5">
+                    <p class="badge bg-info text-dark pl-5 ml-5">Date: %RATING_DATE%</p>
+                </div>      
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+  
+      </template>
+  
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "individual_page.html" %} {% block content %}
+<section class="settings">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="left shadow">
+          <span class="head">User Settings</span>
+          <nav class="set flex-column">
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="{{ url_for('individual.individuals_settings', user_email=g.user[1]) }}"
+              >Org Profile</a
+            >
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="{{ url_for('individual.individuals_pass_settings', user_email=g.user[1]) }}"
+              >Change Password</a
+            >
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="{{ url_for('individual.individuals_notif_settings', user_email=g.user[1]) }}"
+              >Notification</a
+            >
+          </nav>
+        </div>
+      </div>
+      <div class="col-8">{% block prof %} {% endblock prof %}</div>
+    </div>
+  </div>
+</section>
+{% endblock content%}

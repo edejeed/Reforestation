@@ -1,0 +1,83 @@
+<!-- Offcanvas -->
+<div
+  class="offcanvas offcanvas-start"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel"></h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="mb-4 mt-5 ms-3">
+      <a
+        class="text-decoration-none"
+        href="{{ url_for('individual.individual', user_email=g.user[2]) }}"
+      >
+        <span class="h5 text-muted"
+          ><i class="bi bi-calendar4-event pe-3"></i> Events List</span
+        >
+      </a>
+    </div>
+    <div class="mb-4 ms-3">
+      <a
+        class="text-decoration-none"
+        href="{{ url_for('individual.joined', user_email=g.user[2]) }}"
+      >
+        <span class="h5 text-muted"
+          ><i class="bi bi-calendar2-event pe-3"></i> Events Joined</span
+        >
+      </a>
+    </div>
+    <div class="mb-4 ms-3">
+      <a
+        class="text-decoration-none"
+        href="{{ url_for('individual.individual_profile', individual_email=g.user[2]) }}"
+      >
+        <span class="h5 text-muted"
+          ><i class="bi bi-person pe-3"></i> Profile</span
+        >
+      </a>
+    </div>
+    <div class="mb-4 ms-3">
+      <a
+        class="text-decoration-none"
+        href="{{ url_for('individual.organization') }}"
+      >
+        <span class="h5 text-muted"
+          ><i class="bi bi-people pe-3"></i> Organization</span
+        >
+      </a>
+    </div>
+    <div class="mb-4 ms-3">
+      <a class="text-decoration-none" href="{{ url_for('individual.inquiry') }}">
+        <span class="h5 text-muted"
+          ><i class="bi bi-journal-bookmark pe-3"></i> Inquiry</span
+        >
+      </a>
+    </div>
+    <div class="mb-4 ms-3">
+      <a class="text-decoration-none" href="{{ url_for('individual.individuals_settings') }}">
+        <span class="h5 text-muted"
+          ><i class="bi bi-gear pe-3"></i> Settings</span
+        >
+      </a>
+    </div>
+    <div class="mb-4 ms-3">
+      <a
+        class="text-decoration-none"
+        href="{{ url_for('authentication.logout') }}"
+      >
+        <span class="h5 text-muted">
+          <i class="bi bi-box-arrow-left pe-3"></i> Logout</span
+        >
+      </a>
+    </div>
+  </div>
+</div>

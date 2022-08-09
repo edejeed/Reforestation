@@ -1,0 +1,56 @@
+{% extends "org-layout.html" %} {% block content %}
+
+<body>
+  <section class="dash">
+    <div class="midbody">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="title">
+              <span> Save the Earth Org. </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center text-center">
+          <div class="col">
+            {% for item in count %}
+            <div class="item shadow">
+              <p class="text-center">Total Number of Events</p>
+              <div class="eventno">
+                <p class="text-center">{{item.0}}</p>
+              </div>
+            </div>
+            <div class="item1 shadow">
+              {% for item in active %}
+              <p class="text-center">Active Events</p>
+              <div class="active">
+                <p class="text-center">{{item.0}}</p>
+              </div>
+              {%endfor%}
+            </div>
+            {%endfor%}
+          </div>
+
+          <div class="col">
+            {% for row in event %}
+            <div class="item3 shadow">
+              <p class="text-start">Current Event</p>
+              <div class="info">
+                <p class="text-start">Event Name: {{row.2}}</p>
+                <p class="text-start">Event Description: {{row.3}}</p>
+                <p class="text-start">No of Participants: {{row.4}}</p>
+                <p class="text-start">No of Seed: {{row.5}}</p>
+                <p class="text-start">Venue: {{row.6}}</p>
+                <p class="text-start">Seed Variety: {{row.7}}</p>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+
+{% endblock content %}

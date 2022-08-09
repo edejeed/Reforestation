@@ -1,0 +1,47 @@
+{% extends "org_navbar.html" %}
+
+{% block content %}
+
+<br>
+<br>
+<div class="row col d-flex justify-content-center text-center">
+    <div class="card col-6">
+      <div class="card-body">
+        <div class="col-12">
+          <h3 class="mb-1 px-5 ml-5 pl-5 text-center"><b>{{ event_name }}</b></h3>
+          <h4>Average Rating</h4>
+          <h2 class="bold padding-bottom-7">{{ get_event_rating }} <small>/ 5.0</small></h2>
+          <div>
+            <i class="bi bi-people-fill"></i>
+            <span></span>{{ rating_count }} total
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="card-body col-8">
+    <div class="row">
+    {% for row in all_event_info_ratings %}
+    <div class="card-content col-md-12 offset-md-3">
+        <div class="card shadow" type="button data-bs">
+        <br>
+        <div class="card-1">
+            <p class="text-start fw-bold fs-4">{{ rater_name }}</p>
+        </div>
+        <div class="card-4">
+            <p class="text-start fs-5 text-truncated">{{row.3}}</p>
+        </div>
+        <div class="card-5">
+            <p class="badge bg-info text-dark">Rating: {{row.4}}</p>
+        </div>
+        <div class="card-5">
+            <p class="badge bg-info text-dark">Date: {{row.5}}</p>
+            </div>      
+        </div>
+        </div>
+    </div>
+    {% endfor  %}
+    </div>
+</div>
+{% endblock %}
